@@ -1,0 +1,69 @@
+package com.nrifintech.sbrest.services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.nrifintech.sbrest.model.Course;
+
+@Service
+public class ListService implements CourseService{
+
+	List<Course> list;
+	
+	public ListService() {
+		list = new ArrayList<Course>();
+		list.add(new Course(101,"Servlet API","Course On Traditional Java Web Development"));
+		list.add(new Course(102,"Spring Framework","Course On Advanced Java Web Development"));
+	}
+	@Override
+	public List<Course> getCourses() {
+		return list;
+	}
+	@Override
+	public Course getCourse(long cid) {
+		
+		Course c = null;
+		
+		for(Course cr : list) {
+			
+			if(cr.getCourseId() == cid) {
+				c = cr;
+				break;
+			}
+		}
+		
+		return c;
+	}
+	
+	@Override
+	public Course addCourse(Course c) {
+		
+		list.add(c);
+		return c;
+	}
+	@Override
+	public Course updateCourse(Course c) {
+		for(Course i :list) {
+			if(i.getCourseId() == c.getCourseId()) {
+				i.setCourseName(c.getCourseName());
+				i.setCourseDesc(c.getCourseDesc());
+				return c;
+			}
+		}
+		return null;
+	}
+	@Override
+	public int deleteCourse(long cid) {
+		
+		for(Course i : list) {
+			if(i.getCourseId() == cid) {
+				list.remove(i);
+				return 1;
+			}
+		}
+		return 0;
+	}
+
+}
